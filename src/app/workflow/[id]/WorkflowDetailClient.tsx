@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { Workflow } from "@/types/workflow";
 import { FlowCanvas } from "@/components/FlowCanvas";
+import { NodeInspector } from "@/components/NodeInspector";
 import {
   CATEGORY_COLORS,
   CATEGORY_LABELS,
@@ -17,6 +19,10 @@ interface WorkflowDetailClientProps {
 }
 
 export function WorkflowDetailClient({ workflow }: WorkflowDetailClientProps) {
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+  const selectedNode =
+    workflow.nodes.find((n) => n.id === selectedNodeId)?.data ?? null;
+
   const nodeTypeCounts = workflow.nodes.reduce(
     (acc, node) => {
       const type = node.data.type;
@@ -133,10 +139,18 @@ export function WorkflowDetailClient({ workflow }: WorkflowDetailClientProps) {
 
         {/* Canvas */}
         <div
-          className="flex-1 p-4 min-h-0"
+          className="relative flex-1 p-4 min-h-0"
           style={{ height: "calc(100vh - 57px)" }}
         >
-          <FlowCanvas workflow={workflow} />
+          <FlowCanvas
+            workflow={workflow}
+            onNodeClick={setSelectedNodeId}
+            onPaneClick={() => setSelectedNodeId(null)}
+          />
+          <NodeInspector
+            node={selectedNode}
+            onClose={() => setSelectedNodeId(null)}
+          />
         </div>
       </div>
     </div>

@@ -26,6 +26,8 @@ const nodeTypes = {
 
 interface FlowCanvasProps {
   workflow: Workflow;
+  onNodeClick?: (id: string) => void;
+  onPaneClick?: () => void;
 }
 
 function buildStyledEdges(workflow: Workflow): Edge[] {
@@ -69,9 +71,13 @@ function buildStyledEdges(workflow: Workflow): Edge[] {
 function Canvas({
   initialNodes,
   initialEdges,
+  onNodeClick,
+  onPaneClick,
 }: {
   initialNodes: PositionedNode[];
   initialEdges: Edge[];
+  onNodeClick?: (id: string) => void;
+  onPaneClick?: () => void;
 }) {
   const [nodes, , onNodesChange] = useNodesState(initialNodes as never);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -88,6 +94,8 @@ function Canvas({
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
+      onNodeClick={(_, node) => onNodeClick?.(node.id)}
+      onPaneClick={() => onPaneClick?.()}
       nodeTypes={nodeTypes}
       fitView
       fitViewOptions={{ padding: 0.25 }}
@@ -114,7 +122,11 @@ function Canvas({
   );
 }
 
-export function FlowCanvas({ workflow }: FlowCanvasProps) {
+export function FlowCanvas({
+  workflow,
+  onNodeClick,
+  onPaneClick,
+}: FlowCanvasProps) {
   const [positioned, setPositioned] = useState<PositionedNode[] | null>(null);
   const styledEdges = useMemo(() => buildStyledEdges(workflow), [workflow]);
 
@@ -143,6 +155,8 @@ export function FlowCanvas({ workflow }: FlowCanvasProps) {
           key={workflow.id}
           initialNodes={positioned}
           initialEdges={styledEdges}
+          onNodeClick={onNodeClick}
+          onPaneClick={onPaneClick}
         />
       ) : (
         <div className="w-full h-full grid place-items-center text-white/30 text-sm">
