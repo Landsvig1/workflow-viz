@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Workflow } from "@/types/workflow";
-import { FlowCanvas } from "@/components/FlowCanvas";
+import { WorkflowViewer } from "@/components/WorkflowViewer";
 import {
   CATEGORY_COLORS,
   CATEGORY_LABELS,
@@ -136,7 +136,7 @@ export function WorkflowDetailClient({ workflow }: WorkflowDetailClientProps) {
           className="flex-1 p-4 min-h-0"
           style={{ height: "calc(100vh - 57px)" }}
         >
-          <FlowCanvas workflow={workflow} />
+          <WorkflowViewer workflow={workflow} />
         </div>
       </div>
     </div>

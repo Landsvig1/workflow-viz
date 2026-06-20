@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Workflow Viz
+
+Interactive node-graph visualizations of AI automation workflows, automations, and agents — built so non-technical and technical readers understand them equally well.
+
+- **Progressive disclosure** — the graph reads clean by default; click any node to reveal a plain-language explanation, the tool used, and its config.
+- **Run playback** — press play to watch the workflow execute step by step.
+- **Data-driven** — workflows are position-free JSON; positions are computed by auto-layout (elkjs). Adding a workflow is writing one file.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev      # dev server at http://localhost:3000
+npm run build    # production build (prerenders every workflow)
+npm test         # run the Vitest suite
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Adding a workflow
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+A workflow is **just data** — no coordinates, no manual layout. Create a file in `src/data/workflows/` and register it in `src/data/index.ts`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```ts
+import { Workflow } from "@/types/workflow";
 
-## Learn More
+export const myWorkflow: Workflow = {
+  id: "my-workflow",
+  title: "My Workflow",
+  description: "One-line technical description",
+  summary: "Plain-language summary for non-technical readers",
+  category: "operations", // sales | finance | customer-support | operations | hr | marketing
+  tags: ["Example"],
+  complexity: "simple", // simple | medium | complex
+  nodes: [
+    {
+      id: "trigger-1",
+      data: {
+        label: "Start",
+        type: "trigger", // trigger | llm | api | erp | condition | action | human | transform | webhook
+        plainLanguage: "What this step does, in human terms",
+        description: "Technical detail (shown in the inspector)",
+        tool: "Webhook",
+        config: { key: "value" }, // optional, shown in the inspector
+      },
+    },
+    // ...more nodes (no position field — it's computed)
+  ],
+  edges: [{ id: "e1", source: "trigger-1", target: "...", animated: true }],
+};
+```
 
-To learn more about Next.js, take a look at the following resources:
+Every workflow is validated against the schema (`src/lib/schema.ts`) at load time — a malformed workflow fails the build with a readable error (e.g. an edge referencing a missing node).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Import without committing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Visit `/import` to paste or upload a workflow JSON and visualize it in-session. Nothing is persisted — the in-repo files remain the canonical library.
 
-## Deploy on Vercel
+## Architecture
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Concern | Location |
+|---------|----------|
+| Schema + validation | `src/lib/schema.ts` (zod) |
+| Auto-layout | `src/lib/layout.ts` (elkjs, left-to-right layered) |
+| Run playback (topological) | `src/lib/playback.ts` |
+| Library search/filter | `src/lib/workflow-filter.ts` |
+| Canvas + inspector + playback | `src/components/WorkflowViewer.tsx` |
+| Workflow data | `src/data/workflows/` |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Stack: Next.js 16 (App Router), React 19, Tailwind CSS 4, React Flow (`@xyflow/react`).

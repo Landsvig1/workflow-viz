@@ -125,6 +125,23 @@ body::before {
   }
 }
 
+/* Active node during run playback */
+.react-flow__node.rf-node-active > div {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5),
+    0 0 36px rgba(139, 92, 246, 0.55), 0 0 70px rgba(59, 130, 246, 0.3) !important;
+  animation: node-pulse 1.1s ease-in-out infinite;
+}
+
+@keyframes node-pulse {
+  0%,
+  100% {
+    transform: scale(1.04);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
 /* Edge label */
 .react-flow__edge-label {
   font-size: 10px !important;

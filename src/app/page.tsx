@@ -1,5 +1,6 @@
+import Link from "next/link";
 import { workflows } from "@/data";
-import { WorkflowCard } from "@/components/WorkflowCard";
+import { LibraryBrowser } from "@/components/LibraryBrowser";
 import { NODE_CONFIG, NODE_TYPE_LABELS } from "@/lib/node-config";
 import { NodeType } from "@/types/workflow";
 
@@ -31,9 +32,17 @@ export default function HomePage() {
       <div className="relative max-w-6xl mx-auto px-6 py-20">
         {/* Header */}
         <div className="mb-20">
-          <div className="inline-flex items-center gap-2 text-[11px] font-semibold text-violet-300/80 bg-violet-500/8 border border-violet-500/15 rounded-full px-4 py-1.5 mb-8 tracking-wide uppercase">
-            <span className="w-1.5 h-1.5 bg-violet-400 rounded-full animate-pulse" />
-            AI Automation Workflows
+          <div className="flex items-center justify-between gap-3 mb-8">
+            <div className="inline-flex items-center gap-2 text-[11px] font-semibold text-violet-300/80 bg-violet-500/8 border border-violet-500/15 rounded-full px-4 py-1.5 tracking-wide uppercase">
+              <span className="w-1.5 h-1.5 bg-violet-400 rounded-full animate-pulse" />
+              AI Automation Workflows
+            </div>
+            <Link
+              href="/import"
+              className="text-[12px] font-semibold text-white/50 hover:text-white border border-white/10 hover:border-white/25 rounded-full px-4 py-1.5 transition-colors"
+            >
+              Importér JSON →
+            </Link>
           </div>
 
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-[1.05] tracking-tight">
@@ -93,12 +102,8 @@ export default function HomePage() {
           })}
         </div>
 
-        {/* Workflow Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {workflows.map((workflow) => (
-            <WorkflowCard key={workflow.id} workflow={workflow} />
-          ))}
-        </div>
+        {/* Workflow library — search + filter */}
+        <LibraryBrowser workflows={workflows} />
       </div>
     </main>
   );

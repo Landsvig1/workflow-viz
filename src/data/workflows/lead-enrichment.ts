@@ -5,83 +5,83 @@ export const leadEnrichment: Workflow = {
   title: "Lead Enrichment & CRM Update",
   description:
     "Ny lead fra hjemmeside-formular → berig med firmadata → score med AI → opdater CRM → notificer sælger",
+  summary:
+    "Når nogen udfylder en formular på hjemmesiden, beriges og vurderes leadet automatisk, så sælgeren kun kontaktes om de gode muligheder.",
   category: "sales",
   tags: ["CRM", "AI Scoring", "Lead Gen", "Automation"],
   complexity: "medium",
   nodes: [
     {
       id: "trigger-1",
-      type: "workflowNode",
-      position: { x: 50, y: 200 },
       data: {
         label: "Webhook: Ny Lead",
         type: "trigger",
         description: "Formular indsendt på hjemmeside",
+        plainLanguage:
+          "Det starter, så snart en besøgende udfylder kontaktformularen.",
         tool: "Webhook",
       },
     },
     {
       id: "api-1",
-      type: "workflowNode",
-      position: { x: 280, y: 200 },
       data: {
         label: "Hent Firmadata",
         type: "api",
         description: "Slår virksomhed op via CVR/Clearbit",
+        plainLanguage:
+          "Vi slår automatisk virksomheden op, så vi ved hvem leadet er.",
         tool: "Clearbit API",
       },
     },
     {
       id: "llm-1",
-      type: "workflowNode",
-      position: { x: 510, y: 200 },
       data: {
         label: "AI Lead Scoring",
         type: "llm",
         description: "Vurder lead-kvalitet baseret på firmaprofil og adfærd",
+        plainLanguage:
+          "AI giver leadet en kvalitetsscore ud fra firmaprofil og adfærd.",
         tool: "GPT-4o",
       },
     },
     {
       id: "condition-1",
-      type: "workflowNode",
-      position: { x: 740, y: 200 },
       data: {
         label: "Score ≥ 70?",
         type: "condition",
         description: "Forgrening baseret på lead score",
+        plainLanguage: "Gode leads går én vej, svagere leads en anden.",
       },
     },
     {
       id: "erp-1",
-      type: "workflowNode",
-      position: { x: 970, y: 100 },
       data: {
         label: "Opret i HubSpot",
         type: "erp",
         description: "Opret kontakt og deal i CRM",
+        plainLanguage:
+          "Stærke leads oprettes som kontakt og deal i CRM-systemet.",
         tool: "HubSpot CRM",
       },
     },
     {
       id: "action-1",
-      type: "workflowNode",
-      position: { x: 970, y: 300 },
       data: {
         label: "Notificer Sælger",
         type: "action",
         description: "Send Slack besked med lead-detaljer",
+        plainLanguage: "Sælgeren får besked med det samme om det varme lead.",
         tool: "Slack",
       },
     },
     {
       id: "action-2",
-      type: "workflowNode",
-      position: { x: 1200, y: 100 },
       data: {
         label: "Send Velkomst-Email",
         type: "action",
         description: "Personlig email via AI-genereret indhold",
+        plainLanguage:
+          "Leadet får en personlig velkomstmail, mens interessen er størst.",
         tool: "Resend",
       },
     },

@@ -5,106 +5,105 @@ export const contentGeneration: Workflow = {
   title: "Multi-Platform Indholdsproduktion",
   description:
     "Ét emne → research → generer LinkedIn, nyhedsbrev og blogartikel → godkend → publicer automatisk",
+  summary:
+    "Ét emne bliver til indhold til flere kanaler på én gang — researchet, skrevet og publiceret efter ét enkelt godkendelsestrin.",
   category: "marketing",
   tags: ["Content", "AI", "LinkedIn", "Marketing", "Multi-channel"],
   complexity: "complex",
   nodes: [
     {
       id: "trigger-1",
-      type: "workflowNode",
-      position: { x: 50, y: 250 },
       data: {
         label: "Nyt Emne / Brief",
         type: "trigger",
         description: "Manuelt input eller Notion task",
+        plainLanguage:
+          "Det starter med ét emne — fx en idé skrevet ind i Notion.",
         tool: "Notion",
       },
     },
     {
       id: "api-1",
-      type: "workflowNode",
-      position: { x: 280, y: 250 },
       data: {
         label: "Web Research",
         type: "api",
         description: "Søg og udtræk relevante kilder",
+        plainLanguage:
+          "Relevante kilder og fakta om emnet hentes automatisk ind.",
         tool: "Perplexity API",
       },
     },
     {
       id: "llm-1",
-      type: "workflowNode",
-      position: { x: 510, y: 100 },
       data: {
         label: "LinkedIn Post",
         type: "llm",
         description: "Kort, engagerende LinkedIn-format",
+        plainLanguage:
+          "AI skriver et kort, fængende LinkedIn-opslag.",
         tool: "Claude 3.5 Sonnet",
       },
     },
     {
       id: "llm-2",
-      type: "workflowNode",
-      position: { x: 510, y: 250 },
       data: {
         label: "Nyhedsbrev",
         type: "llm",
         description: "Email-format med personlig tone",
+        plainLanguage:
+          "Samme emne skrives om til et nyhedsbrev med personlig tone.",
         tool: "GPT-4o",
       },
     },
     {
       id: "llm-3",
-      type: "workflowNode",
-      position: { x: 510, y: 400 },
       data: {
         label: "Blogartikel",
         type: "llm",
         description: "Lang SEO-optimeret artikel",
+        plainLanguage:
+          "Og til en længere blogartikel, der kan findes på Google.",
         tool: "GPT-4o",
       },
     },
     {
       id: "human-1",
-      type: "workflowNode",
-      position: { x: 740, y: 250 },
       data: {
         label: "Review & Rediger",
         type: "human",
         description: "Godkend eller tilret indhold",
+        plainLanguage:
+          "Et menneske læser igennem og justerer, før noget går live.",
         tool: "Notion / Email",
       },
     },
     {
       id: "action-1",
-      type: "workflowNode",
-      position: { x: 970, y: 100 },
       data: {
         label: "Publicer LinkedIn",
         type: "action",
         description: "Post via LinkedIn API",
+        plainLanguage: "Opslaget publiceres automatisk på LinkedIn.",
         tool: "LinkedIn API",
       },
     },
     {
       id: "action-2",
-      type: "workflowNode",
-      position: { x: 970, y: 250 },
       data: {
         label: "Send Nyhedsbrev",
         type: "action",
         description: "Udsend til subscriber liste",
+        plainLanguage: "Nyhedsbrevet sendes ud til abonnenterne.",
         tool: "Resend",
       },
     },
     {
       id: "action-3",
-      type: "workflowNode",
-      position: { x: 970, y: 400 },
       data: {
         label: "Publicer Blog",
         type: "action",
         description: "Push til hjemmeside via CMS",
+        plainLanguage: "Blogartiklen lægges automatisk op på hjemmesiden.",
         tool: "Sanity CMS",
       },
     },
