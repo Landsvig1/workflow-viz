@@ -7,6 +7,16 @@ import { contentGeneration } from "./workflows/content-generation";
 import { employeeOnboarding } from "./workflows/employee-onboarding";
 import { recruitmentScreening } from "./workflows/recruitment-screening";
 import { adOptimization } from "./workflows/ad-optimization";
+import { aiSdrOutreach } from "./workflows/ai-sdr-outreach";
+import { claudeCodePrReview } from "./workflows/claude-code-pr-review";
+import { incidentResponseCopilot } from "./workflows/incident-response-copilot";
+import { voiceToCrm } from "./workflows/voice-to-crm";
+import { stripeDunningRecovery } from "./workflows/stripe-dunning-recovery";
+import { youtubeContentRepurpose } from "./workflows/youtube-content-repurpose";
+import { hireOnboardingAutomation } from "./workflows/hire-onboarding-automation";
+import { churnPredictionWinback } from "./workflows/churn-prediction-winback";
+import { aiReleaseNotes } from "./workflows/ai-release-notes";
+import { figmaToCode } from "./workflows/figma-to-code";
 
 const authored: Workflow[] = [
   leadEnrichment,
@@ -16,6 +26,16 @@ const authored: Workflow[] = [
   employeeOnboarding,
   recruitmentScreening,
   adOptimization,
+  aiSdrOutreach,
+  claudeCodePrReview,
+  incidentResponseCopilot,
+  voiceToCrm,
+  stripeDunningRecovery,
+  youtubeContentRepurpose,
+  hireOnboardingAutomation,
+  churnPredictionWinback,
+  aiReleaseNotes,
+  figmaToCode,
 ];
 
 // Validate every workflow at module load. A malformed workflow fails fast
