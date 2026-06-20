@@ -5,6 +5,8 @@ export const contentGeneration: Workflow = {
   title: "Multi-Platform Indholdsproduktion",
   description:
     "Ét emne → research → generer LinkedIn, nyhedsbrev og blogartikel → godkend → publicer automatisk",
+  summary:
+    "Ét emne bliver til indhold til flere kanaler på én gang — researchet, skrevet og publiceret efter ét enkelt godkendelsestrin.",
   category: "marketing",
   tags: ["Content", "AI", "LinkedIn", "Marketing", "Multi-channel"],
   complexity: "complex",
@@ -15,6 +17,8 @@ export const contentGeneration: Workflow = {
         label: "Nyt Emne / Brief",
         type: "trigger",
         description: "Manuelt input eller Notion task",
+        plainLanguage:
+          "Det starter med ét emne — fx en idé skrevet ind i Notion.",
         tool: "Notion",
       },
     },
@@ -24,6 +28,8 @@ export const contentGeneration: Workflow = {
         label: "Web Research",
         type: "api",
         description: "Søg og udtræk relevante kilder",
+        plainLanguage:
+          "Relevante kilder og fakta om emnet hentes automatisk ind.",
         tool: "Perplexity API",
       },
     },
@@ -33,6 +39,8 @@ export const contentGeneration: Workflow = {
         label: "LinkedIn Post",
         type: "llm",
         description: "Kort, engagerende LinkedIn-format",
+        plainLanguage:
+          "AI skriver et kort, fængende LinkedIn-opslag.",
         tool: "Claude 3.5 Sonnet",
       },
     },
@@ -42,6 +50,8 @@ export const contentGeneration: Workflow = {
         label: "Nyhedsbrev",
         type: "llm",
         description: "Email-format med personlig tone",
+        plainLanguage:
+          "Samme emne skrives om til et nyhedsbrev med personlig tone.",
         tool: "GPT-4o",
       },
     },
@@ -51,6 +61,8 @@ export const contentGeneration: Workflow = {
         label: "Blogartikel",
         type: "llm",
         description: "Lang SEO-optimeret artikel",
+        plainLanguage:
+          "Og til en længere blogartikel, der kan findes på Google.",
         tool: "GPT-4o",
       },
     },
@@ -60,6 +72,8 @@ export const contentGeneration: Workflow = {
         label: "Review & Rediger",
         type: "human",
         description: "Godkend eller tilret indhold",
+        plainLanguage:
+          "Et menneske læser igennem og justerer, før noget går live.",
         tool: "Notion / Email",
       },
     },
@@ -69,6 +83,7 @@ export const contentGeneration: Workflow = {
         label: "Publicer LinkedIn",
         type: "action",
         description: "Post via LinkedIn API",
+        plainLanguage: "Opslaget publiceres automatisk på LinkedIn.",
         tool: "LinkedIn API",
       },
     },
@@ -78,6 +93,7 @@ export const contentGeneration: Workflow = {
         label: "Send Nyhedsbrev",
         type: "action",
         description: "Udsend til subscriber liste",
+        plainLanguage: "Nyhedsbrevet sendes ud til abonnenterne.",
         tool: "Resend",
       },
     },
@@ -87,6 +103,7 @@ export const contentGeneration: Workflow = {
         label: "Publicer Blog",
         type: "action",
         description: "Push til hjemmeside via CMS",
+        plainLanguage: "Blogartiklen lægges automatisk op på hjemmesiden.",
         tool: "Sanity CMS",
       },
     },

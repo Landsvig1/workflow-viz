@@ -4,12 +4,18 @@ import { leadEnrichment } from "./workflows/lead-enrichment";
 import { invoiceProcessing } from "./workflows/invoice-processing";
 import { customerSupport } from "./workflows/customer-support";
 import { contentGeneration } from "./workflows/content-generation";
+import { employeeOnboarding } from "./workflows/employee-onboarding";
+import { recruitmentScreening } from "./workflows/recruitment-screening";
+import { adOptimization } from "./workflows/ad-optimization";
 
 const authored: Workflow[] = [
   leadEnrichment,
   invoiceProcessing,
   customerSupport,
   contentGeneration,
+  employeeOnboarding,
+  recruitmentScreening,
+  adOptimization,
 ];
 
 // Validate every workflow at module load. A malformed workflow fails fast

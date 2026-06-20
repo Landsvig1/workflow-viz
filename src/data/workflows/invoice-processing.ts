@@ -5,6 +5,8 @@ export const invoiceProcessing: Workflow = {
   title: "AI Faktura-Behandling",
   description:
     "Indgående faktura via email → OCR + AI-udtræk → validering mod ERP → godkendelse → bogføring",
+  summary:
+    "Fakturaer, der lander i indbakken, læses, valideres og bogføres automatisk — kun de tvivlsomme havner hos en person.",
   category: "finance",
   tags: ["ERP", "OCR", "Finance", "AI", "Business Central"],
   complexity: "complex",
@@ -15,6 +17,8 @@ export const invoiceProcessing: Workflow = {
         label: "Email Modtaget",
         type: "trigger",
         description: "Ny email i fakturapostkassen",
+        plainLanguage:
+          "Det starter, når en faktura lander i den fælles fakturaindbakke.",
         tool: "Microsoft 365",
       },
     },
@@ -24,6 +28,8 @@ export const invoiceProcessing: Workflow = {
         label: "OCR + Dataudtræk",
         type: "llm",
         description: "Udtræk leverandør, beløb, linjer, moms",
+        plainLanguage:
+          "AI læser fakturaen og trækker leverandør, beløb og moms ud.",
         tool: "GPT-4o Vision",
       },
     },
@@ -33,6 +39,8 @@ export const invoiceProcessing: Workflow = {
         label: "Valider Leverandør",
         type: "api",
         description: "Tjek CVR og leverandørstatus",
+        plainLanguage:
+          "Vi tjekker, at leverandøren er ægte og godkendt.",
         tool: "CVR API",
       },
     },
@@ -42,6 +50,8 @@ export const invoiceProcessing: Workflow = {
         label: "Match mod PO",
         type: "erp",
         description: "Find matchende Purchase Order i ERP",
+        plainLanguage:
+          "Fakturaen matches mod den bestilling, den hører til.",
         tool: "Business Central",
       },
     },
@@ -51,6 +61,8 @@ export const invoiceProcessing: Workflow = {
         label: "Auto-godkend?",
         type: "condition",
         description: "Beløb < 5.000 kr og match fundet",
+        plainLanguage:
+          "Små, klare fakturaer går videre selv — resten skal godkendes.",
       },
     },
     {
@@ -59,6 +71,8 @@ export const invoiceProcessing: Workflow = {
         label: "Manuel Godkendelse",
         type: "human",
         description: "Økonomiansvarlig godkender i Teams",
+        plainLanguage:
+          "Større fakturaer godkendes af en økonomiansvarlig.",
         tool: "Microsoft Teams",
       },
     },
@@ -68,6 +82,8 @@ export const invoiceProcessing: Workflow = {
         label: "Bogfør Faktura",
         type: "erp",
         description: "Post faktura og opret betaling",
+        plainLanguage:
+          "Fakturaen bogføres, og betalingen klargøres automatisk.",
         tool: "Business Central",
       },
     },
@@ -77,6 +93,8 @@ export const invoiceProcessing: Workflow = {
         label: "Bekræftelse Email",
         type: "action",
         description: "Send bekræftelse til leverandør",
+        plainLanguage:
+          "Leverandøren får besked om, at fakturaen er modtaget og behandlet.",
         tool: "Microsoft 365",
       },
     },

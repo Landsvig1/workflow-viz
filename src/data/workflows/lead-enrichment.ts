@@ -5,6 +5,8 @@ export const leadEnrichment: Workflow = {
   title: "Lead Enrichment & CRM Update",
   description:
     "Ny lead fra hjemmeside-formular → berig med firmadata → score med AI → opdater CRM → notificer sælger",
+  summary:
+    "Når nogen udfylder en formular på hjemmesiden, beriges og vurderes leadet automatisk, så sælgeren kun kontaktes om de gode muligheder.",
   category: "sales",
   tags: ["CRM", "AI Scoring", "Lead Gen", "Automation"],
   complexity: "medium",
@@ -15,6 +17,8 @@ export const leadEnrichment: Workflow = {
         label: "Webhook: Ny Lead",
         type: "trigger",
         description: "Formular indsendt på hjemmeside",
+        plainLanguage:
+          "Det starter, så snart en besøgende udfylder kontaktformularen.",
         tool: "Webhook",
       },
     },
@@ -24,6 +28,8 @@ export const leadEnrichment: Workflow = {
         label: "Hent Firmadata",
         type: "api",
         description: "Slår virksomhed op via CVR/Clearbit",
+        plainLanguage:
+          "Vi slår automatisk virksomheden op, så vi ved hvem leadet er.",
         tool: "Clearbit API",
       },
     },
@@ -33,6 +39,8 @@ export const leadEnrichment: Workflow = {
         label: "AI Lead Scoring",
         type: "llm",
         description: "Vurder lead-kvalitet baseret på firmaprofil og adfærd",
+        plainLanguage:
+          "AI giver leadet en kvalitetsscore ud fra firmaprofil og adfærd.",
         tool: "GPT-4o",
       },
     },
@@ -42,6 +50,7 @@ export const leadEnrichment: Workflow = {
         label: "Score ≥ 70?",
         type: "condition",
         description: "Forgrening baseret på lead score",
+        plainLanguage: "Gode leads går én vej, svagere leads en anden.",
       },
     },
     {
@@ -50,6 +59,8 @@ export const leadEnrichment: Workflow = {
         label: "Opret i HubSpot",
         type: "erp",
         description: "Opret kontakt og deal i CRM",
+        plainLanguage:
+          "Stærke leads oprettes som kontakt og deal i CRM-systemet.",
         tool: "HubSpot CRM",
       },
     },
@@ -59,6 +70,7 @@ export const leadEnrichment: Workflow = {
         label: "Notificer Sælger",
         type: "action",
         description: "Send Slack besked med lead-detaljer",
+        plainLanguage: "Sælgeren får besked med det samme om det varme lead.",
         tool: "Slack",
       },
     },
@@ -68,6 +80,8 @@ export const leadEnrichment: Workflow = {
         label: "Send Velkomst-Email",
         type: "action",
         description: "Personlig email via AI-genereret indhold",
+        plainLanguage:
+          "Leadet får en personlig velkomstmail, mens interessen er størst.",
         tool: "Resend",
       },
     },
