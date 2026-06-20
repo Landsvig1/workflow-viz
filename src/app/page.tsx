@@ -1,5 +1,5 @@
 import { workflows } from "@/data";
-import { WorkflowCard } from "@/components/WorkflowCard";
+import { LibraryBrowser } from "@/components/LibraryBrowser";
 import { NODE_CONFIG, NODE_TYPE_LABELS } from "@/lib/node-config";
 import { NodeType } from "@/types/workflow";
 
@@ -93,12 +93,8 @@ export default function HomePage() {
           })}
         </div>
 
-        {/* Workflow Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {workflows.map((workflow) => (
-            <WorkflowCard key={workflow.id} workflow={workflow} />
-          ))}
-        </div>
+        {/* Workflow library — search + filter */}
+        <LibraryBrowser workflows={workflows} />
       </div>
     </main>
   );
