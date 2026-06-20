@@ -5,7 +5,7 @@ import {
   initialPlayback,
   type PlaybackState,
 } from "./playback";
-import type { WorkflowNode, WorkflowEdge } from "@/types/workflow";
+import type { WorkflowNode } from "@/types/workflow";
 
 const n = (id: string): WorkflowNode => ({
   id,

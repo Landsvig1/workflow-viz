@@ -151,19 +151,25 @@ export function FlowCanvas({
   onPaneClick,
   activeNodeId,
 }: FlowCanvasProps) {
-  const [positioned, setPositioned] = useState<PositionedNode[] | null>(null);
+  // Tag the computed layout with its workflow id so a stale layout from a
+  // previous workflow is never rendered, without a synchronous reset.
+  const [layout, setLayout] = useState<{
+    id: string;
+    nodes: PositionedNode[];
+  } | null>(null);
   const styledEdges = useMemo(() => buildStyledEdges(workflow), [workflow]);
 
   useEffect(() => {
     let cancelled = false;
-    setPositioned(null);
     layoutWorkflow(workflow.nodes, workflow.edges).then((p) => {
-      if (!cancelled) setPositioned(p);
+      if (!cancelled) setLayout({ id: workflow.id, nodes: p });
     });
     return () => {
       cancelled = true;
     };
   }, [workflow]);
+
+  const positioned = layout?.id === workflow.id ? layout.nodes : null;
 
   return (
     <div
