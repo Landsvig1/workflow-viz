@@ -6,7 +6,7 @@ import { NODE_CONFIG, NODE_TYPE_LABELS } from "@/lib/node-config";
 import clsx from "clsx";
 
 export function WorkflowNode({ data, selected }: NodeProps) {
-  const nodeData = data as WorkflowNodeData;
+  const nodeData = data as unknown as WorkflowNodeData;
   const config = NODE_CONFIG[nodeData.type];
 
   return (

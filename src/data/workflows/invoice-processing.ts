@@ -11,8 +11,6 @@ export const invoiceProcessing: Workflow = {
   nodes: [
     {
       id: "trigger-1",
-      type: "workflowNode",
-      position: { x: 50, y: 250 },
       data: {
         label: "Email Modtaget",
         type: "trigger",
@@ -22,8 +20,6 @@ export const invoiceProcessing: Workflow = {
     },
     {
       id: "llm-1",
-      type: "workflowNode",
-      position: { x: 280, y: 250 },
       data: {
         label: "OCR + Dataudtræk",
         type: "llm",
@@ -33,8 +29,6 @@ export const invoiceProcessing: Workflow = {
     },
     {
       id: "api-1",
-      type: "workflowNode",
-      position: { x: 510, y: 150 },
       data: {
         label: "Valider Leverandør",
         type: "api",
@@ -44,8 +38,6 @@ export const invoiceProcessing: Workflow = {
     },
     {
       id: "erp-1",
-      type: "workflowNode",
-      position: { x: 510, y: 350 },
       data: {
         label: "Match mod PO",
         type: "erp",
@@ -55,8 +47,6 @@ export const invoiceProcessing: Workflow = {
     },
     {
       id: "condition-1",
-      type: "workflowNode",
-      position: { x: 740, y: 250 },
       data: {
         label: "Auto-godkend?",
         type: "condition",
@@ -65,8 +55,6 @@ export const invoiceProcessing: Workflow = {
     },
     {
       id: "human-1",
-      type: "workflowNode",
-      position: { x: 970, y: 150 },
       data: {
         label: "Manuel Godkendelse",
         type: "human",
@@ -76,8 +64,6 @@ export const invoiceProcessing: Workflow = {
     },
     {
       id: "erp-2",
-      type: "workflowNode",
-      position: { x: 970, y: 350 },
       data: {
         label: "Bogfør Faktura",
         type: "erp",
@@ -87,8 +73,6 @@ export const invoiceProcessing: Workflow = {
     },
     {
       id: "action-1",
-      type: "workflowNode",
-      position: { x: 1200, y: 250 },
       data: {
         label: "Bekræftelse Email",
         type: "action",

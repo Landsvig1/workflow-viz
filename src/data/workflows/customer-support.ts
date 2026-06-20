@@ -11,8 +11,6 @@ export const customerSupport: Workflow = {
   nodes: [
     {
       id: "trigger-1",
-      type: "workflowNode",
-      position: { x: 50, y: 250 },
       data: {
         label: "Ny Henvendelse",
         type: "trigger",
@@ -22,8 +20,6 @@ export const customerSupport: Workflow = {
     },
     {
       id: "llm-1",
-      type: "workflowNode",
-      position: { x: 280, y: 250 },
       data: {
         label: "Klassificer & Analyser",
         type: "llm",
@@ -33,8 +29,6 @@ export const customerSupport: Workflow = {
     },
     {
       id: "api-1",
-      type: "workflowNode",
-      position: { x: 510, y: 250 },
       data: {
         label: "Hent Kundehistorik",
         type: "api",
@@ -44,8 +38,6 @@ export const customerSupport: Workflow = {
     },
     {
       id: "llm-2",
-      type: "workflowNode",
-      position: { x: 740, y: 250 },
       data: {
         label: "Generer Svar",
         type: "llm",
@@ -55,8 +47,6 @@ export const customerSupport: Workflow = {
     },
     {
       id: "condition-1",
-      type: "workflowNode",
-      position: { x: 970, y: 250 },
       data: {
         label: "Confidence ≥ 85%?",
         type: "condition",
@@ -65,8 +55,6 @@ export const customerSupport: Workflow = {
     },
     {
       id: "action-1",
-      type: "workflowNode",
-      position: { x: 1200, y: 150 },
       data: {
         label: "Send Auto-Svar",
         type: "action",
@@ -76,8 +64,6 @@ export const customerSupport: Workflow = {
     },
     {
       id: "human-1",
-      type: "workflowNode",
-      position: { x: 1200, y: 350 },
       data: {
         label: "Eskaler til Agent",
         type: "human",

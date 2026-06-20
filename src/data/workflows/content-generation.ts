@@ -11,8 +11,6 @@ export const contentGeneration: Workflow = {
   nodes: [
     {
       id: "trigger-1",
-      type: "workflowNode",
-      position: { x: 50, y: 250 },
       data: {
         label: "Nyt Emne / Brief",
         type: "trigger",
@@ -22,8 +20,6 @@ export const contentGeneration: Workflow = {
     },
     {
       id: "api-1",
-      type: "workflowNode",
-      position: { x: 280, y: 250 },
       data: {
         label: "Web Research",
         type: "api",
@@ -33,8 +29,6 @@ export const contentGeneration: Workflow = {
     },
     {
       id: "llm-1",
-      type: "workflowNode",
-      position: { x: 510, y: 100 },
       data: {
         label: "LinkedIn Post",
         type: "llm",
@@ -44,8 +38,6 @@ export const contentGeneration: Workflow = {
     },
     {
       id: "llm-2",
-      type: "workflowNode",
-      position: { x: 510, y: 250 },
       data: {
         label: "Nyhedsbrev",
         type: "llm",
@@ -55,8 +47,6 @@ export const contentGeneration: Workflow = {
     },
     {
       id: "llm-3",
-      type: "workflowNode",
-      position: { x: 510, y: 400 },
       data: {
         label: "Blogartikel",
         type: "llm",
@@ -66,8 +56,6 @@ export const contentGeneration: Workflow = {
     },
     {
       id: "human-1",
-      type: "workflowNode",
-      position: { x: 740, y: 250 },
       data: {
         label: "Review & Rediger",
         type: "human",
@@ -77,8 +65,6 @@ export const contentGeneration: Workflow = {
     },
     {
       id: "action-1",
-      type: "workflowNode",
-      position: { x: 970, y: 100 },
       data: {
         label: "Publicer LinkedIn",
         type: "action",
@@ -88,8 +74,6 @@ export const contentGeneration: Workflow = {
     },
     {
       id: "action-2",
-      type: "workflowNode",
-      position: { x: 970, y: 250 },
       data: {
         label: "Send Nyhedsbrev",
         type: "action",
@@ -99,8 +83,6 @@ export const contentGeneration: Workflow = {
     },
     {
       id: "action-3",
-      type: "workflowNode",
-      position: { x: 970, y: 400 },
       data: {
         label: "Publicer Blog",
         type: "action",
