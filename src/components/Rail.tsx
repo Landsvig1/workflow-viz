@@ -45,7 +45,10 @@ export function Rail({
   const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
+    // Deferred read of persisted UI state: localStorage isn't available during
+    // SSR, so this must run after mount to avoid a hydration mismatch.
     try {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (localStorage.getItem(STORAGE_KEY) === "1") setCollapsed(true);
     } catch {
       /* ignore */
