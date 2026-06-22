@@ -28,7 +28,6 @@ interface FlowCanvasProps {
   workflow: Workflow;
   onNodeClick?: (id: string) => void;
   onPaneClick?: () => void;
-  activeNodeId?: string | null;
 }
 
 function buildStyledEdges(workflow: Workflow): Edge[] {
@@ -43,7 +42,6 @@ function buildStyledEdges(workflow: Workflow): Edge[] {
 
     return {
       ...e,
-      data: { baseAnimated: e.animated ?? false },
       style: { stroke: `${color}70`, strokeWidth: 2 },
       labelStyle: {
         fill: "rgba(255,255,255,0.4)",
@@ -75,40 +73,19 @@ function Canvas({
   initialEdges,
   onNodeClick,
   onPaneClick,
-  activeNodeId,
 }: {
   initialNodes: PositionedNode[];
   initialEdges: Edge[];
   onNodeClick?: (id: string) => void;
   onPaneClick?: () => void;
-  activeNodeId?: string | null;
 }) {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes as never);
+  const [nodes, , onNodesChange] = useNodesState(initialNodes as never);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   const onConnect = useCallback(
     (params: Connection) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
-
-  // Reflect playback: glow the active node, animate its outgoing edges.
-  useEffect(() => {
-    setNodes((nds) =>
-      nds.map((node) => ({
-        ...node,
-        className: node.id === activeNodeId ? "rf-node-active" : undefined,
-      }))
-    );
-    setEdges((eds) =>
-      eds.map((edge) => ({
-        ...edge,
-        animated:
-          activeNodeId != null
-            ? edge.source === activeNodeId
-            : edge.data?.baseAnimated === true,
-      }))
-    );
-  }, [activeNodeId, setNodes, setEdges]);
 
   return (
     <ReactFlow
@@ -149,7 +126,6 @@ export function FlowCanvas({
   workflow,
   onNodeClick,
   onPaneClick,
-  activeNodeId,
 }: FlowCanvasProps) {
   // Tag the computed layout with its workflow id so a stale layout from a
   // previous workflow is never rendered, without a synchronous reset.
@@ -187,7 +163,6 @@ export function FlowCanvas({
           initialEdges={styledEdges}
           onNodeClick={onNodeClick}
           onPaneClick={onPaneClick}
-          activeNodeId={activeNodeId}
         />
       ) : (
         <div className="w-full h-full grid place-items-center text-white/30 text-sm">
