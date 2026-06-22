@@ -42,14 +42,16 @@ export function Rail({
   featuredId: string;
 }) {
   const pathname = usePathname();
-  const [collapsed, setCollapsed] = useState(false);
+  // Collapsed by default; a stored preference (either direction) overrides.
+  const [collapsed, setCollapsed] = useState(true);
 
   useEffect(() => {
     // Deferred read of persisted UI state: localStorage isn't available during
     // SSR, so this must run after mount to avoid a hydration mismatch.
     try {
+      const stored = localStorage.getItem(STORAGE_KEY);
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      if (localStorage.getItem(STORAGE_KEY) === "1") setCollapsed(true);
+      if (stored !== null) setCollapsed(stored === "1");
     } catch {
       /* ignore */
     }
