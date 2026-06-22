@@ -38,55 +38,6 @@ body::before {
   background-size: 60px 60px;
 }
 
-/* Gradient text utility */
-.gradient-text {
-  background: linear-gradient(135deg, #a78bfa 0%, #818cf8 40%, #38bdf8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Stat card glow on hover */
-.stat-card:hover {
-  box-shadow: 0 0 40px rgba(99, 102, 241, 0.12);
-}
-
-/* Workflow card gradient border */
-.workflow-card-wrapper {
-  position: relative;
-  border-radius: 20px;
-  padding: 1px;
-  background: rgba(255, 255, 255, 0.06);
-  transition: all 0.3s ease;
-}
-.workflow-card-wrapper::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 20px;
-  padding: 1px;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.08),
-    rgba(255, 255, 255, 0),
-    rgba(99, 102, 241, 0)
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-.workflow-card-wrapper:hover::before {
-  background: linear-gradient(
-    135deg,
-    rgba(139, 92, 246, 0.5),
-    rgba(59, 130, 246, 0.3),
-    rgba(16, 185, 129, 0.1)
-  );
-  opacity: 1;
-}
-
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 5px;
