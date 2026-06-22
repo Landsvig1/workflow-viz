@@ -9,7 +9,7 @@ interface WorkflowDetailClientProps {
 
 export function WorkflowDetailClient({ workflow }: WorkflowDetailClientProps) {
   return (
-    <div className="h-screen bg-[#03030a] bg-grid">
+    <div className="h-full">
       <WorkflowStage workflow={workflow} />
     </div>
   );
