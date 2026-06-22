@@ -52,6 +52,18 @@ for (const wf of authored) {
 
 export const workflows: Workflow[] = authored;
 
+/** The workflow shown on the landing page. Change this one line to re-feature. */
+export const FEATURED_WORKFLOW_ID = "figma-to-code";
+
 export function getWorkflow(id: string): Workflow | undefined {
   return workflows.find((w) => w.id === id);
+}
+
+/** The featured workflow shown on the landing page. */
+export function getFeaturedWorkflow(): Workflow {
+  const wf = getWorkflow(FEATURED_WORKFLOW_ID);
+  if (!wf) {
+    throw new Error(`Featured workflow "${FEATURED_WORKFLOW_ID}" not found`);
+  }
+  return wf;
 }
