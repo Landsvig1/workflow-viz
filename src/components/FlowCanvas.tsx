@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   ReactFlow,
   Background,
@@ -17,11 +17,16 @@ import {
 import "@xyflow/react/dist/style.css";
 import { Workflow } from "@/types/workflow";
 import { WorkflowNode } from "./WorkflowNode";
+import { RoutedEdge } from "./edges/RoutedEdge";
 import { NODE_CONFIG } from "@/lib/node-config";
-import { layoutWorkflow, type PositionedNode } from "@/lib/layout";
+import { layoutWorkflow, type PositionedNode, type Point } from "@/lib/layout";
 
 const nodeTypes = {
   workflowNode: WorkflowNode,
+};
+
+const edgeTypes = {
+  routed: RoutedEdge,
 };
 
 interface FlowCanvasProps {
@@ -30,7 +35,12 @@ interface FlowCanvasProps {
   onPaneClick?: () => void;
 }
 
-function buildStyledEdges(workflow: Workflow): Edge[] {
+/** Merge per-edge styling (stroke by source-node type, arrow marker, label)
+ *  with the elk-computed bend points, producing routed React Flow edges. */
+function buildStyledEdges(
+  workflow: Workflow,
+  bendsById: Map<string, Point[]>
+): Edge[] {
   const nodeTypeMap = Object.fromEntries(
     workflow.nodes.map((n) => [n.id, n.data.type])
   );
@@ -41,33 +51,26 @@ function buildStyledEdges(workflow: Workflow): Edge[] {
     const color = config?.accent ?? "rgba(255,255,255,0.2)";
 
     return {
-      ...e,
+      id: e.id,
+      source: e.source,
+      target: e.target,
+      type: "routed",
+      label: e.label,
+      animated: e.animated ?? false,
+      data: { points: bendsById.get(e.id) ?? [] },
       style: { stroke: `${color}70`, strokeWidth: 2 },
-      labelStyle: {
-        fill: "rgba(255,255,255,0.4)",
-        fontSize: 10,
-        fontFamily: "inherit",
-        fontWeight: 500,
-      },
-      labelBgStyle: {
-        fill: "rgba(3,3,10,0.8)",
-        stroke: "rgba(255,255,255,0.06)",
-        strokeWidth: 1,
-        rx: 4,
-      },
-      labelBgPadding: [6, 4] as [number, number],
       markerEnd: {
         type: MarkerType.ArrowClosed,
         color: `${color}80`,
         width: 16,
         height: 16,
       },
-    };
+    } as Edge;
   });
 }
 
-/** Inner canvas: receives already-positioned nodes so `fitView` runs once
- *  coordinates exist. */
+/** Inner canvas: receives already-positioned nodes and routed edges so
+ *  `fitView` runs once coordinates exist. */
 function Canvas({
   initialNodes,
   initialEdges,
@@ -97,6 +100,7 @@ function Canvas({
       onNodeClick={(_, node) => onNodeClick?.(node.id)}
       onPaneClick={() => onPaneClick?.()}
       nodeTypes={nodeTypes}
+      edgeTypes={edgeTypes}
       fitView
       fitViewOptions={{ padding: 0.25 }}
       style={{ background: "transparent" }}
@@ -132,20 +136,28 @@ export function FlowCanvas({
   const [layout, setLayout] = useState<{
     id: string;
     nodes: PositionedNode[];
+    edges: Edge[];
   } | null>(null);
-  const styledEdges = useMemo(() => buildStyledEdges(workflow), [workflow]);
 
   useEffect(() => {
     let cancelled = false;
-    layoutWorkflow(workflow.nodes, workflow.edges).then((p) => {
-      if (!cancelled) setLayout({ id: workflow.id, nodes: p });
+    layoutWorkflow(workflow.nodes, workflow.edges).then((result) => {
+      if (cancelled) return;
+      const bendsById = new Map(
+        result.edges.map((e) => [e.id, e.bendPoints])
+      );
+      setLayout({
+        id: workflow.id,
+        nodes: result.nodes,
+        edges: buildStyledEdges(workflow, bendsById),
+      });
     });
     return () => {
       cancelled = true;
     };
   }, [workflow]);
 
-  const positioned = layout?.id === workflow.id ? layout.nodes : null;
+  const ready = layout?.id === workflow.id ? layout : null;
 
   return (
     <div
@@ -155,12 +167,12 @@ export function FlowCanvas({
           "inset 0 0 0 1px rgba(255,255,255,0.04), 0 0 80px rgba(0,0,0,0.6)",
       }}
     >
-      {positioned ? (
+      {ready ? (
         // key forces a fresh mount per workflow so fitView re-frames
         <Canvas
           key={workflow.id}
-          initialNodes={positioned}
-          initialEdges={styledEdges}
+          initialNodes={ready.nodes}
+          initialEdges={ready.edges}
           onNodeClick={onNodeClick}
           onPaneClick={onPaneClick}
         />
