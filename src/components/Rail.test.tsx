@@ -15,14 +15,27 @@ const items: RailItem[] = [
 
 const FEATURED = "figma-to-code";
 
+// Rail is collapsed by default; expand it to assert on item-level content.
+function renderExpanded() {
+  const utils = render(<Rail items={items} featuredId={FEATURED} />);
+  fireEvent.click(screen.getByLabelText("Udvid menu"));
+  return utils;
+}
+
 beforeEach(() => {
   mockPathname = "/";
   localStorage.clear();
 });
 
 describe("Rail", () => {
-  it("renders every item grouped under its category heading", () => {
+  it("is collapsed by default with no stored preference", () => {
     render(<Rail items={items} featuredId={FEATURED} />);
+    expect(screen.queryByText("Lead Enrichment")).not.toBeInTheDocument();
+    expect(screen.getByLabelText("Udvid menu")).toBeInTheDocument();
+  });
+
+  it("renders every item grouped under its category heading when expanded", () => {
+    renderExpanded();
     expect(screen.getByText("Sales")).toBeInTheDocument();
     expect(screen.getByText("Operations")).toBeInTheDocument();
     expect(screen.getByText("Lead Enrichment")).toBeInTheDocument();
@@ -32,7 +45,7 @@ describe("Rail", () => {
 
   it("marks the item matching /workflow/<id> as active", () => {
     mockPathname = "/workflow/ai-sdr-outreach";
-    render(<Rail items={items} featuredId={FEATURED} />);
+    renderExpanded();
     expect(screen.getByText("AI SDR").closest("a")).toHaveAttribute(
       "aria-current",
       "page"
@@ -44,38 +57,46 @@ describe("Rail", () => {
 
   it("marks the featured item active on the root path", () => {
     mockPathname = "/";
-    render(<Rail items={items} featuredId={FEATURED} />);
+    renderExpanded();
     expect(screen.getByText("Figma to Code").closest("a")).toHaveAttribute(
       "aria-current",
       "page"
     );
   });
 
-  it("collapses and hides item labels on toggle", () => {
+  it("toggles between collapsed and expanded", () => {
     render(<Rail items={items} featuredId={FEATURED} />);
+    expect(screen.queryByText("Lead Enrichment")).not.toBeInTheDocument();
+    fireEvent.click(screen.getByLabelText("Udvid menu"));
     expect(screen.getByText("Lead Enrichment")).toBeInTheDocument();
     fireEvent.click(screen.getByLabelText("Skjul menu"));
     expect(screen.queryByText("Lead Enrichment")).not.toBeInTheDocument();
   });
 
-  it("renders an Import link to /import", () => {
-    render(<Rail items={items} featuredId={FEATURED} />);
+  it("renders an Import link to /import when expanded", () => {
+    renderExpanded();
     expect(screen.getByText("Importér JSON").closest("a")).toHaveAttribute(
       "href",
       "/import"
     );
   });
 
-  it("starts collapsed when localStorage has the collapsed flag", async () => {
-    localStorage.setItem("wv-rail-collapsed", "1");
+  it("expands when localStorage has the expanded flag", async () => {
+    localStorage.setItem("wv-rail-collapsed", "0");
     render(<Rail items={items} featuredId={FEATURED} />);
     await waitFor(() =>
-      expect(screen.queryByText("Lead Enrichment")).not.toBeInTheDocument()
+      expect(screen.getByText("Lead Enrichment")).toBeInTheDocument()
     );
   });
 
-  it("links the featured item to / and others to /workflow/<id>", () => {
+  it("stays collapsed when localStorage has the collapsed flag", () => {
+    localStorage.setItem("wv-rail-collapsed", "1");
     render(<Rail items={items} featuredId={FEATURED} />);
+    expect(screen.queryByText("Lead Enrichment")).not.toBeInTheDocument();
+  });
+
+  it("links the featured item to / and others to /workflow/<id>", () => {
+    renderExpanded();
     expect(screen.getByText("Figma to Code").closest("a")).toHaveAttribute(
       "href",
       "/"

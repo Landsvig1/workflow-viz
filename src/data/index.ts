@@ -53,7 +53,7 @@ for (const wf of authored) {
 export const workflows: Workflow[] = authored;
 
 /** The workflow shown on the landing page. Change this one line to re-feature. */
-export const FEATURED_WORKFLOW_ID = "figma-to-code";
+export const FEATURED_WORKFLOW_ID = "content-generation";
 
 export function getWorkflow(id: string): Workflow | undefined {
   return workflows.find((w) => w.id === id);
