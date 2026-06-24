@@ -17,6 +17,7 @@ import { hireOnboardingAutomation } from "./workflows/hire-onboarding-automation
 import { churnPredictionWinback } from "./workflows/churn-prediction-winback";
 import { aiReleaseNotes } from "./workflows/ai-release-notes";
 import { figmaToCode } from "./workflows/figma-to-code";
+import { fiskeriRegelkaede } from "./workflows/fiskeri-regelkaede";
 
 const authored: Workflow[] = [
   leadEnrichment,
@@ -36,6 +37,7 @@ const authored: Workflow[] = [
   churnPredictionWinback,
   aiReleaseNotes,
   figmaToCode,
+  fiskeriRegelkaede,
 ];
 
 // Validate every workflow at module load. A malformed workflow fails fast

@@ -24,8 +24,30 @@ export const categorySchema = z.enum([
 
 export const complexitySchema = z.enum(["simple", "medium", "complex"]);
 
+export const edgeKindSchema = z.enum([
+  "sequence",
+  "modifies",
+  "refines",
+  "authorizes",
+  "duplicates",
+  "shares-data",
+]);
+
+export const laneSchema = z.object({
+  id: z.string().min(1),
+  label: z.string().min(1),
+});
+
+export const workflowLayoutSchema = z.object({
+  layerSpacing: z.number().positive().optional(),
+  nodeSpacing: z.number().positive().optional(),
+  rowPitch: z.number().positive().optional(),
+  laneGap: z.number().nonnegative().optional(),
+});
+
 export const workflowNodeSchema = z.object({
   id: z.string().min(1),
+  lane: z.string().optional(),
   data: z.object({
     label: z.string().min(1),
     type: nodeTypeSchema,
@@ -48,6 +70,7 @@ export const workflowEdgeSchema = z.object({
   target: z.string().min(1),
   label: z.string().optional(),
   animated: z.boolean().optional(),
+  kind: edgeKindSchema.optional(),
 });
 
 export const workflowSchema = z
@@ -59,6 +82,8 @@ export const workflowSchema = z
     category: categorySchema,
     tags: z.array(z.string()),
     complexity: complexitySchema,
+    lanes: z.array(laneSchema).optional(),
+    layout: workflowLayoutSchema.optional(),
     nodes: z.array(workflowNodeSchema).min(1),
     edges: z.array(workflowEdgeSchema),
   })
@@ -77,6 +102,19 @@ export const workflowSchema = z
           code: "custom",
           message: `Edge "${e.id}" references unknown target node "${e.target}"`,
           path: ["edges", i, "target"],
+        });
+      }
+    });
+
+    // A node's lane must reference a defined lane. Same consistency contract
+    // as edge endpoints: fail fast on a typo rather than silently misplacing.
+    const laneIds = new Set((wf.lanes ?? []).map((l) => l.id));
+    wf.nodes.forEach((n, i) => {
+      if (n.lane !== undefined && !laneIds.has(n.lane)) {
+        ctx.addIssue({
+          code: "custom",
+          message: `Node "${n.id}" references unknown lane "${n.lane}"`,
+          path: ["nodes", i, "lane"],
         });
       }
     });

@@ -23,6 +23,7 @@ export function WorkflowViewer({ workflow }: WorkflowViewerProps) {
     <div className="relative w-full h-full">
       <FlowCanvas
         workflow={workflow}
+        focusNodeId={selectedNodeId}
         onNodeClick={setSelectedNodeId}
         onPaneClick={() => setSelectedNodeId(null)}
       />
