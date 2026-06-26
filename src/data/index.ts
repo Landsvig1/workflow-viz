@@ -18,8 +18,10 @@ import { churnPredictionWinback } from "./workflows/churn-prediction-winback";
 import { aiReleaseNotes } from "./workflows/ai-release-notes";
 import { figmaToCode } from "./workflows/figma-to-code";
 import { fiskeriRegelkaede } from "./workflows/fiskeri-regelkaede";
+import { dra } from "./workflows/dra";
 
 const authored: Workflow[] = [
+  dra,
   leadEnrichment,
   invoiceProcessing,
   customerSupport,
