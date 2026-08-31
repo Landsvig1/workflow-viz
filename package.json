@@ -1,7 +1,25 @@
 {
   "name": "workflow-viz",
   "version": "0.1.0",
-  "private": true,
+  "description": "Interactive node-graph visualizer for AI automation workflows, automations, and multi-agent systems",
+  "license": "MIT",
+  "author": "Kasper Landsvig <kasper@landsvig.com> (https://landsvig.com)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Landsvig1/workflow-viz.git"
+  },
+  "keywords": [
+    "workflow",
+    "visualizer",
+    "react-flow",
+    "xyflow",
+    "elkjs",
+    "dag",
+    "ai-agents",
+    "nextjs",
+    "swimlanes",
+    "automation"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -14,8 +32,7 @@
     "@xyflow/react": "^12.11.0",
     "clsx": "^2.1.1",
     "elkjs": "^0.11.1",
-    "lucide-react": "^1.21.0",
-    "next": "16.2.9",
+    "next": "^16.3.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "zod": "^4.4.3"
@@ -30,7 +47,7 @@
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.0.2",
     "eslint": "^9",
-    "eslint-config-next": "16.2.9",
+    "eslint-config-next": "^16.3.3",
     "jsdom": "^29.1.1",
     "tailwindcss": "^4",
     "typescript": "^5",
